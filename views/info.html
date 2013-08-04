@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>FT Tweet service</title>
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//financial-times.github.io/ft-showtime/css/main.css">
+    </head>
+    <body>
+
+      <div class="container">
+
+        <div class='row'>
+          <div class='col-lg-12'>
+
+            <div class='page-header'>
+              <h1>Tweet service</h1>
+              <p class='lead'>Fetch public tweets from Twitter in FT style</p>
+            </div>
+
+            <div class='main'>
+              <p>This service provides embeddable HTML to render a Tweet, as an alternative to using Twitter's oEmbed endpoint and <code>widgets.js</code> JavaScript library.  This is useful for a number of reasons:</p>
+              <ul>
+                <li>Twitter's oEmbed HTML does not contain much data, leading to an inferior user experience for users for whom <code>widgets.js</code> does not load, where it fails, or if the user has JavaScript disabled or is using a JavaScript incapable client</li>
+                <li>Where <code>widgets.js</code> is used, it creates an IFRAME which is problematic when displayed in pages that also extensively use CSS transforms</li>
+                <li><code>widgets.js</code> takes over any link to Twitter, altering the behaviour in a way the FT developer may not want</li>
+                <li>The Tweet style created by <code>widgets.js</code> is less responsive than the basic oEmbed version</li>
+              </ul>
+
+              <h2>API reference</h2>
+              <h3>GET /v1/statuses/show.:format</h3>
+              <p>Fetch a single tweet specified by ID or URL.</p>
+              <table>
+                <tr>
+                  <th>Param</th><th>Where</th><th>Description</th>
+                </tr><tr>
+                  <td><code>:format</code></td>
+                  <td>URL</td>
+                  <td>json or html</td>
+                </tr><tr>
+                  <td><code>id</code>*</td>
+                  <td>Querystring</td>
+                  <td>ID of the tweet, or the full tweet URL</td>
+                </tr><tr>
+                  <td><code>callback</code></td>
+                  <td>Querystring</td>
+                  <td>JSONp callback function name</td>
+                </tr>
+              </table>
+
+              <h2>Rate limiting</h2>
+              <p>Twitter limits the number of requests we can make per 15 minute window.  If your request hits a Twitter rate limit, you'll receive the response the service received from Twitter, with an HTTP 429 status code.</p>
+
+              <h2>See also</h2>
+              <p>The following showtime components are compatible with this one:</p>
+              <ul>
+                <li>ft-tweet</li>
+              </ul>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div> <!-- /container -->
+
+      <div class='footer'>
+        <div class='container'>
+          <div class='row'>
+            <div class='col-lg-12'>
+              <p class='pull-right'><a href='http://github.com/financial-times/ft-tweet-service'>View project on Github</a></p>
+              <p>&copy; THE FINANCIAL TIMES LTD 2013. FT and 'Financial Times' are trademarks of The Financial Times Ltd.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </body>
+</html>
