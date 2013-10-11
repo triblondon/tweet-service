@@ -7,5 +7,9 @@
       "twit": "*",
       "moment": "*",
       "htmltidy": "*"
+   },
+   "scripts": {
+      "start": "forever start --minUptime 1000 --spinSleepTime 1000 --no-colors app.js",
+      "stop": "forever stop --no-colors app.js"
    }
 }
