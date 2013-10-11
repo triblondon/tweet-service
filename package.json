@@ -6,6 +6,7 @@
       "mustache": "*",
       "twit": "*",
       "moment": "*",
+      "forever": "*",
       "htmltidy": "*"
    },
    "scripts": {
