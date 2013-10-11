@@ -1,5 +1,5 @@
 {
-   "name": "ft-tweet-service",
+   "name": "tweet-service",
    "version": "0.0.1",
    "dependencies": {
       "express": "3.x",
@@ -7,7 +7,9 @@
       "twit": "*",
       "moment": "*",
       "forever": "*",
-      "htmltidy": "*"
+      "htmltidy": "*",
+      "deferred": "*",
+      "memcached": "*"
    },
    "scripts": {
       "start": "forever start --minUptime 1000 --spinSleepTime 1000 --no-colors app.js",
