@@ -1,0 +1,6 @@
+{
+   "name": "tweet-service",
+   "dependencies": {
+      "tweet-module": "git://github.com/triblondon/tweet-module.git#>=v0.0.2"
+   }
+}

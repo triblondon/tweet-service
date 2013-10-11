@@ -8,84 +8,13 @@
     <meta name="viewport" content="width=device-width">
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//financial-times.github.io/ft-showtime/css/main.css">
-    <style>
-      .ft-module-tweet {
-        padding-left: 58px;
-        margin: 1em 0;
-      }
-      .ft-module-tweet .h-card {
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        font-size: 14px;
-      }
-      .ft-module-tweet .avatar {
-        float: left;
-        margin-left: -58px;
-        border-radius: 4px;
-        width: 48px;
-      }
-      .ft-module-tweet .full-name {
-        font-weight: bold;
-      }
-      .ft-module-tweet blockquote {
-        font-size: 17px;
-        margin: 7px 0;
-        padding: 0;
-        border: none;
-      }
-      .ft-module-tweet .media {
-        margin: 10px 0 7px 0;
-        max-height: 300px;
-        max-width: 100%;
-        position: relative;
-      }
-      .ft-module-tweet .media img {
-        max-height: 100%;
-        max-width: 100%;
-      }
-      .ft-module-tweet .iframed {
-        max-width: 450px;
-      }
-      .ft-module-tweet .iframed div {
-        padding-top:56.25%;
-        height:0;
-        max-width: 100%;
-      }
-      .ft-module-tweet .iframed iframe {
-        position: absolute;
-        top:0;
-        left:0;
-        width: 100%;
-        height: 100%;
-      }
-      .ft-module-tweet .metadata {
-        list-style-type: none;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        font-size: 12px;
-        padding: 0;
-        margin: 0;
-      }
-      .ft-module-tweet .metadata li {
-        display: inline;
-        margin-right: 8px;
-        white-space: nowrap;
-        line-height: 1.5;
-      }
-      .ft-module-tweet a.permalink {
-        color: #999;
-      }
-      .ft-module-tweet li.stats {
-        font-size: 10px;
-        text-transform: uppercase;
-      }
-      .ft-module-tweet li.stats strong {
-        font-size: 12px;
-      }
+    <link rel="stylesheet" href="//financial-times.github.io/ft-origami/css/main.css">
+    <link rel="stylesheet" href="/bundle.css">
     </style>
     <script>
       window.onload = function() {
         var xhr = new XMLHttpRequest();
-        xhr.open("get", "/v1/statuses/show.html?id=266031293945503744");
+        xhr.open("get", "/v1/statuses/show.html?id=266031293945503744&source=docs");
         xhr.onload = function() {
           document.getElementById('example_tweet').innerHTML = this.responseText;
         }
@@ -117,7 +46,7 @@
             <h2>API reference</h2>
             <h3>GET /v1/statuses/show.:format</h3>
             <p>Fetch a single tweet specified by ID or URL.</p>
-            <table>
+            <table class='table'>
               <tr>
                 <th>Param</th><th>Where</th><th>Description</th>
               </tr><tr>
@@ -144,7 +73,7 @@
             <p>This tweet is embedded in this page by making an AJAX request to this service's API, and adding the resulting HTML to the DOM.  This page also includes CSS from the <a href=''>ft-tweet</a> module as a <code>&lt;link&gt;</code> tag in the head, which gives the tweet its visual style. The code to achieve this is simply:</p>
 
 <pre><code>var xhr = new XMLHttpRequest();
-xhr.open("get", "/v1/statuses/show.html?id=266031293945503744");
+xhr.open("get", "/v1/statuses/show.html?id=266031293945503744&amp;source=your-app-name");
 xhr.onload = function() {
   document.getElementById('example_tweet').innerHTML = this.responseText;
 }
@@ -155,7 +84,7 @@ xhr.send();</code></pre>
             <h2>See also</h2>
             <p>The following showtime components are designed to work with this service:</p>
             <ul>
-              <li><a href=''>ft-tweet</a></li>
+              <li><a href='http://github.com/triblondon/tweet-service'>tweet-service</a></li>
             </ul>
 
           </div>
@@ -169,7 +98,7 @@ xhr.send();</code></pre>
       <div class='container'>
         <div class='row'>
           <div class='col-lg-12'>
-            <p class='pull-right'><a href='http://github.com/financial-times/ft-tweet-service'>View project on Github</a></p>
+            <p class='pull-right'><a href='http://github.com/triblondon/tweet-service'>View project on Github</a></p>
             <p>&copy; THE FINANCIAL TIMES LTD 2013. FT and 'Financial Times' are trademarks of The Financial Times Ltd.</p>
           </div>
         </div>

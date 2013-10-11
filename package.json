@@ -1,11 +1,11 @@
 {
    "name": "ft-tweet-service",
-   "description": "A web service component to return tweets",
    "version": "0.0.1",
    "dependencies": {
       "express": "3.x",
-      "handlebars": "*",
+      "mustache": "*",
       "twit": "*",
-      "moment": "*"
+      "moment": "*",
+      "htmltidy": "*"
    }
 }
