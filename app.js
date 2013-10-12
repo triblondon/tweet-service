@@ -1,4 +1,6 @@
 var express = require('express');
+var config = require('./modules/config');
+
 var app = express()
 
 // Serve files statically from the /public directory
@@ -26,17 +28,17 @@ app.all('*', function(req, res, next){
 });
 
 // Origami-required docs and monitoring
-app.get('/', require('./controllers/routes/info.js'));
-app.get('/v:version', require('./controllers/routes/info.js'));
-app.get('/about', require('./controllers/routes/about.js'));
-app.get('/v:version/about', require('./controllers/routes/about.js'));
-app.get('/metrics', require('./controllers/routes/metrics.js'));
-app.get('/v:version/metrics', require('./controllers/routes/metrics.js'));
-app.get('/health', require('./controllers/routes/health.js'));
-app.get('/v:version/health', require('./controllers/routes/health.js'));
+app.get('/', require('./controllers/standard/info'));
+app.get('/v:version', require('./controllers/standard/info'));
+app.get('/about', require('./controllers/standard/about'));
+app.get('/v:version/about', require('./controllers/standard/about'));
+app.get('/metrics', require('./controllers/standard/metrics'));
+app.get('/v:version/metrics', require('./controllers/standard/metrics'));
+app.get('/health', require('./controllers/standard/health'));
+app.get('/v:version/health', require('./controllers/standard/health'));
 
 // API endpoints
-app.get('/v1/statuses/show.:format', require('./controllers/routes/statuses.show.js'));
+app.get('/v1/statuses/show.:format', require('./controllers/statuses.show'));
 
 // 404 handler for any other requests not handled above
 app.get('*', function(req, res){
@@ -50,3 +52,14 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(3000);
+console.log('Listening on port 3000');
+
+// Load config
+config.load(function(err) {
+	if (err) {
+		console.log(err.toString());
+		process.exit(1);
+	} else {
+		console.log('Config loaded');
+	}
+});

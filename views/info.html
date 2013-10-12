@@ -35,12 +35,13 @@
           </div>
 
           <div class='main'>
-            <p>This service provides embeddable HTML to render a Tweet, as an alternative to using Twitter's oEmbed endpoint and <code>widgets.js</code> JavaScript library.  This is useful for a number of reasons:</p>
+            <p>This service provides embeddable HTML to render a Tweet, as an alternative to using <a href='https://dev.twitter.com/docs/api/1/get/statuses/oembed'>Twitter's oEmbed endpoint</a> and <code>widgets.js</code> JavaScript library.  This is useful for a number of reasons:</p>
             <ul>
               <li>Twitter's oEmbed HTML does not contain much data, leading to an inferior user experience for users for whom <code>widgets.js</code> does not load, where it fails, or if the user has JavaScript disabled or is using a JavaScript incapable client</li>
               <li>Where <code>widgets.js</code> is used, it creates an IFRAME which is problematic when displayed in pages that also extensively use CSS transforms</li>
               <li><code>widgets.js</code> takes over any link to Twitter, altering the behaviour in a way the FT developer may not want</li>
               <li>The Tweet style created by <code>widgets.js</code> is less responsive than the basic oEmbed version</li>
+              <li>We prefer not to include third party JavaScript where we can avoid it, since it's a security risk and also means updates published by the third party might break our sites</li>
             </ul>
 
             <h2>API reference</h2>

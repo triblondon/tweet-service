@@ -1,0 +1,12 @@
+{
+	"twit": {
+		"consumer_key": "",
+		"consumer_secret": "",
+		"access_token": "",
+		"access_token_secret": ""
+	},
+	"memcached": {
+		"servers": "127.0.0.1:11211",
+		"options": {"timeout":100}
+	}
+}

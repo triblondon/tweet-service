@@ -9,7 +9,9 @@
       "forever": "*",
       "htmltidy": "*",
       "deferred": "*",
-      "memcached": "*"
+      "request": "*",
+      "memcached": "*",
+      "lodash": "*"
    },
    "scripts": {
       "start": "forever start --minUptime 1000 --spinSleepTime 1000 --no-colors app.js",

@@ -2,21 +2,12 @@
 var twit, Mustache, fs;
 
 function init() {
+	var config = require('./config');
 
 	fs = require('fs');
-
-	twit = new (require('twit'))({
-		consumer_key: 'rNmjOs81JIGEOKz3Oat7Uw',
-		consumer_secret: '9PYh4HPGFDpUVuCfMM7EEZTQCfZ28xPCmt1uIjCRxw',
-		access_token: '490703854-bDfTS8X63eY1AzuEDQBbiJUBsjrBciHxzqijIQqo',
-		access_token_secret: '3zIOm3bsHM8CxOOFOuifRivQ1qalApZJJZ4D0UqA'
-	});
+	twit = new (require('twit'))(config.get('twit'));
 
 	Mustache = require('mustache');
-
-	//hbs.registerHelper('extract', function(value, block) {
-	//	if (block.hash.type == 'youtube') return value.replace(/^.*watch\?v=([^&]+).*$/i, '$1');
-	//});
 }
 
 function dateFormat(str, format) {
@@ -50,7 +41,6 @@ module.exports = {
 			twit.get('statuses/show/:id', {id:params.id}, function(err, res) {
 				var data;
 				if (!err && params.success) {
-					console.log(res.entities);
 					data = {
 						id: res.id_str,
 						created_at: res.created_at,

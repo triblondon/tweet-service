@@ -1,6 +1,9 @@
 
 module.exports = function(req, res) {
-	var format, mckey, deferred = require('deferred'), Memcached = require('memcached');
+	var format, mckey,
+	deferred = require('deferred'),
+	Memcached = require('memcached'),
+	mcconfig = require('../modules/config').get('memcached');
 
 	if (!req.query.id) throw('No twitter status id specified');
 
@@ -8,12 +11,12 @@ module.exports = function(req, res) {
 	mckey = 'origami-tweet-'+req.query.id+'-'+format;
 
 	def = deferred();
-	memcached = new Memcached('127.0.0.1:11211', {timeout:50});
+	memcached = new Memcached(mcconfig.servers, mcconfig.options);
 	memcached.get(mckey, function(err, cacheres) {
 		if (cacheres) {
 			def.resolve(cacheres);
 		} else {
-			require('../sources/twitterapi.js').statuses.show({
+			require('../modules/twitterapi.js').statuses.show({
 				id: req.query.id,
 				format: format,
 				success: function(op) {
