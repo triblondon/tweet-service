@@ -15,13 +15,29 @@ function dateFormat(str, format) {
 	return moment(Date(str)).format(format);
 }
 
-function autoLink(str) {
-	var pattern = /\b((?:https?|ftp|file):\/\/)([-A-Za-z0-9+&@#\/%?=~_|!:,.;]*[-A-Za-z0-9+&@#\/%=~_|])/ig;
-	return str.replace(pattern, "<a href='$&'>$2</a>");
+function linkURLs(str, urls) {
+	urls.forEach(function(url) {
+		str = str.replace(url.url, "<a href='"+url.expanded_url+"'>"+url.display_url+"</a>");
+	})
+	return str;
+}
+
+function linkUsers(str, mentions) {
+	mentions.forEach(function(mention) {
+		str = str.replace('@'+mention.screen_name, "<a href='http://twitter.com/"+mention.screen_name+"' title='"+mention.name+"'>@"+mention.screen_name+"</a>");
+	});
+	return str;
+}
+
+function linkHashTags(str, tags) {
+	tags.forEach(function(tag) {
+		str = str.replace('#'+tag.text, "<a href='https://twitter.com/search?q=%23"+tag.text+"&amp;src=hash'>#"+tag.text+"</a>");
+	});
+	return str;
 }
 
 function numberFormat(value) {
-    return value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    return value ? value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") : null;
 }
 
 function trim(str) {
@@ -46,7 +62,7 @@ module.exports = {
 						created_at: res.created_at,
 						created_at_formatted: dateFormat(res.created_at, 'h:mma, Do MMM YYYY'),
 						text: trim(res.text),
-						html: autoLink(trim(res.text)),
+						html: trim(res.text),
 						user: {
 							id: res.user.id,
 							name: res.user.name,
@@ -54,21 +70,33 @@ module.exports = {
 							profile_image_url_https: res.user.profile_image_url_https
 						},
 						photos: [],
-						youtube_vids: [],
+						youtube: [],
+						vimeo: [],
 						favorite_count: numberFormat(res.favorite_count),
 						retweet_count: numberFormat(res.retweet_count)
+					}
+					if (res.entities.user_mentions) {
+						data.html = linkUsers(data.html, res.entities.user_mentions);
+					}
+					if (res.entities.hashtags) {
+						data.html = linkHashTags(data.html, res.entities.hashtags);
+					}
+					if (res.entities.urls) {
+						data.html = linkURLs(data.html, res.entities.urls);
 					}
 
 					// Transform media
 					if (res.entities.media) {
 						res.entities.media.forEach(function(item) {
-							if (item.type == 'photo') {
-								data.photos.push({
-									media_url_https: item.media_url_https,
-									url: item.url,
-									display_url: item.display_url
-								})
-							}
+							if (item.type == 'photo') data.photos.push(item.media_url_https);
+						});
+					}
+					if (res.entities.urls) {
+						res.entities.urls.forEach(function(url) {
+							var vimeo = url.expanded_url.match(/vimeo\.com\/(\d+)/i);
+							if (vimeo) data.vimeo.push(vimeo[1]);
+							var youtube = url.expanded_url.match(/youtube\.com\/watch\/?\?v=(\w+)/i);
+							if (youtube) data.youtube.push(youtube[1]);
 						});
 					}
 
