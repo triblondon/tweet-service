@@ -60,15 +60,17 @@ module.exports = {
 					}
 
 					// Transform media
-					res.entities.media.forEach(function(item) {
-						if (item.type == 'photo') {
-							data.photos.push({
-								media_url_https: item.media_url_https,
-								url: item.url,
-								display_url: item.display_url
-							})
-						}
-					});
+					if (res.entities.media) {
+						res.entities.media.forEach(function(item) {
+							if (item.type == 'photo') {
+								data.photos.push({
+									media_url_https: item.media_url_https,
+									url: item.url,
+									display_url: item.display_url
+								})
+							}
+						});
+					}
 
 					if (params.format && params.format === 'json') {
 						params.success(data);
