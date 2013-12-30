@@ -5,9 +5,8 @@ timeout = 1000;
 var checks = [
 	{
 		name: "Twitter API",
-		check: "Retrieve a tweet from Twitter's statuses.show API",
 		businessImpact: "The tweet service won't work. Tweets may not appear on sites that rely on the tweet service, though since most will likely be cached, the most likely impact is that embedding new tweets will not work.",
-		technicalImpact: "None",
+		technicalSummary: "Retrieves a tweet from Twitter's statuses.show API",
 		panicGuide: "If it's because we've hit our rate limit, the only immediate option is to contact Twitter and ask for an increased limit.",
 		severity: 3,
 		func: function(def) {
