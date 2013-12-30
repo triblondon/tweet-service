@@ -3,7 +3,7 @@
    "version": "0.0.1",
    "dependencies": {
       "express": "3.x",
-      "mustache": "*",
+      "mustache": "0.8",
       "twit": "*",
       "moment": "*",
       "forever": "*",
@@ -16,7 +16,7 @@
       "bower": "*"
    },
    "scripts": {
-      "prepare": "git pull; mkdir logs; chmod -R 777 logs; mkdir public; chmod -R 777 public; npm install; bower update; node-sass --include-path bower_components resources/main.scss public/bundle.css;",
+      "prepare": "git pull; mkdir logs; chmod -R 777 logs; mkdir public; chmod -R 777 public; npm install; bower install; node-sass --include-path bower_components resources/main.scss public/bundle.css;",
       "start": "forever start --minUptime 1000 --spinSleepTime 1000 --no-colors app.js",
       "stop": "forever stop --no-colors app.js"
    }
