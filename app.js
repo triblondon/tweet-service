@@ -51,15 +51,13 @@ app.use(function(err, req, res, next) {
 	res.send(500, req.query.showerrors ? err : '');
 });
 
-app.listen(3000);
-console.log('Listening on port 3000');
-
-// Load config
+// Load config and laungh server
 config.load(function(err) {
 	if (err) {
 		console.log(err.toString());
 		process.exit(1);
 	} else {
-		console.log('Config loaded');
+		app.listen(config.get('port'));
+		console.log('Listening on port '+config.get('port'));
 	}
 });
