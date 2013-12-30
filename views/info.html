@@ -70,7 +70,11 @@
 
             <h2>Example</h2>
             <p>Using the same example tweet twitter uses on its <a href='https://dev.twitter.com/docs/embedded-tweets'>embedding tweets</a> documentation:</p>
-            <div id='example_tweet'></div>
+          </div>
+
+          <div id='example_tweet'></div>
+
+          <div class='main'>
             <p>This tweet is embedded in this page by making an AJAX request to this service's API, and adding the resulting HTML to the DOM.  This page also includes CSS from the <a href=''>ft-tweet</a> module as a <code>&lt;link&gt;</code> tag in the head, which gives the tweet its visual style. The code to achieve this is simply:</p>
 
 <pre><code>var xhr = new XMLHttpRequest();
@@ -81,13 +85,6 @@ xhr.onload = function() {
 xhr.send();</code></pre>
 
             <p>You'd normally do the web service call server side or at the edge, to improve pageload performance, and since the tweet content can normally be cached along with the rest of the page.  To make the call server side, simply load the same URL in an <a href='http://en.wikipedia.org/wiki/Edge_Side_Includes'>ESI</a> or using your server application.</p>
-
-            <h2>See also</h2>
-            <p>The following showtime components are designed to work with this service:</p>
-            <ul>
-              <li><a href='http://github.com/triblondon/tweet-service'>tweet-service</a></li>
-            </ul>
-
           </div>
 
         </div>
