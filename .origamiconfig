@@ -1,7 +1,8 @@
 {
 	"description": "Get tweets in FT style HTML",
 	"origamiType": "service",
+	"origamiVersion": 1,
 	"support": "andrew.betts@ft.com",
 	"supportStatus": "active"
-	"serviceUrl": "http://tweet.webservices.ft.com"
+	"serviceUrl": "http://tweet.origami.trib.tv"
 }

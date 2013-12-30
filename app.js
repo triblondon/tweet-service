@@ -7,16 +7,6 @@ var app = express()
 .use(express.static('public'))
 .set('view engine', 'html')
 
-// Origami-required source identifier
-app.all('*', function(req, res, next) {
-	if (!req.query.source && !req.get('X-FT-Source')) {
-		res.send(400, 'Please specify a source identifier');
-	} else {
-		req.source = req.query.source || req.get('X-FT-Source');
-		next();
-	}
-})
-
 // Origami-advised CORS response headers allowing access from browser
 app.all('*', function(req, res, next){
   if (!req.get('Origin')) return next();
@@ -30,12 +20,22 @@ app.all('*', function(req, res, next){
 // Origami-required docs and monitoring
 app.get('/', require('./controllers/standard/info'));
 app.get('/v:version', require('./controllers/standard/info'));
-app.get('/about', require('./controllers/standard/about'));
-app.get('/v:version/about', require('./controllers/standard/about'));
-app.get('/metrics', require('./controllers/standard/metrics'));
-app.get('/v:version/metrics', require('./controllers/standard/metrics'));
-app.get('/health', require('./controllers/standard/health'));
-app.get('/v:version/health', require('./controllers/standard/health'));
+app.get('/__about', require('./controllers/standard/about'));
+app.get('/v:version/__about', require('./controllers/standard/about'));
+app.get('/__metrics', require('./controllers/standard/metrics'));
+app.get('/v:version/__metrics', require('./controllers/standard/metrics'));
+app.get('/__health', require('./controllers/standard/health'));
+app.get('/v:version/__health', require('./controllers/standard/health'));
+
+// Origami-required source identifier (applies to all API endpoints, below, but not monitoring and docs endpoints, above)
+app.all('/v:version/*', function(req, res, next) {
+	if (!req.query.source && !req.get('X-FT-Source')) {
+		res.send(400, 'Please specify a source identifier');
+	} else {
+		req.source = req.query.source || req.get('X-FT-Source');
+		next();
+	}
+})
 
 // API endpoints
 app.get('/v1/statuses/show.:format', require('./controllers/statuses.show'));
@@ -48,7 +48,7 @@ app.get('*', function(req, res){
 // Error handing
 app.use(function(err, req, res, next) {
 	if (err.stack) console.error(err.stack);
-	res.send(500, err);
+	res.send(500, req.query.showerrors ? err : '');
 });
 
 app.listen(3000);
