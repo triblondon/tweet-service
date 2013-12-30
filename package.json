@@ -11,9 +11,12 @@
       "deferred": "*",
       "request": "*",
       "memcached": "*",
-      "lodash": "*"
+      "lodash": "*",
+      "node-sass": "*",
+      "bower": "*"
    },
    "scripts": {
+      "prepare": "git pull; mkdir logs; chmod -R 777 logs; mkdir public; chmod -R 777 public; npm install; bower update; node-sass --include-path bower_components resources/main.scss public/bundle.css;",
       "start": "forever start --minUptime 1000 --spinSleepTime 1000 --no-colors app.js",
       "stop": "forever stop --no-colors app.js"
    }
