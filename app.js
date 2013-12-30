@@ -51,7 +51,7 @@ app.use(function(err, req, res, next) {
 	res.send(500, req.query.showerrors ? err : '');
 });
 
-// Load config and laungh server
+// Load config and launch server
 config.load(function(err) {
 	if (err) {
 		console.log(err.toString());
