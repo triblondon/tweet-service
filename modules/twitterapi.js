@@ -103,7 +103,7 @@ module.exports = {
 					if (params.format && params.format === 'json') {
 						params.success(data);
 					} else {
-						var template = Mustache.compile(fs.readFileSync('bower_components/tweet-module/main.ms').toString());
+						var template = Mustache.compile(fs.readFileSync('bower_components/o-tweet/main.ms').toString());
 						params.success(template(data));
 					}
 				} else {
