@@ -13,11 +13,14 @@
       "request": "*",
       "memcached": "*",
       "lodash": "*",
-      "node-sass": "*",
-      "bower": "*"
+      "grunt": "~0.4.1",
+      "grunt-contrib-sass": "*",
+      "grunt-contrib-watch": "*",
+      "grunt-browserify": "*",
+      "debowerify": "*"
    },
    "scripts": {
-      "prepare": "git pull; mkdir logs; chmod -R 777 logs; mkdir public; chmod -R 777 public; npm install; bower install; node-sass --include-path bower_components resources/main.scss public/bundle.css;",
+      "prepare": "git pull; mkdir logs; chmod -R 777 logs; mkdir public; chmod -R 777 public; npm install; bower install; grunt;",
       "start": "forever start --minUptime 1000 --spinSleepTime 1000 --no-colors app.js",
       "stop": "forever stop --no-colors app.js"
    }

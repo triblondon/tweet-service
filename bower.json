@@ -1,6 +1,7 @@
 {
    "name": "tweet-service",
    "dependencies": {
-      "o-tweet": "git://github.com/triblondon/tweet-module.git#v0.1"
+      "o-tweet": "git://github.com/triblondon/tweet-module.git#v0.1",
+      "o-techdocs": "git://github.com/Financial-Times/o-techdocs#~0.0.3"
    }
 }

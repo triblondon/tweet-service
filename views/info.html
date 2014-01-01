@@ -7,10 +7,77 @@
     <title>FT Tweet service</title>
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//financial-times.github.io/ft-origami/buildcache/main.css">
-    <link rel="stylesheet" href="/bundle.css">
-    </style>
+    <link rel="stylesheet" href="/bundle.css" />
+    <script src='/bundle.js'></script>
+  </head>
+  <body class='o-techdocs'>
+
+    <div class="o-grid-page">
+      <div class="o-techdocs-page-header">
+        <h1>Tweet service</h1>
+        <p class='o-techdocs-page-header__lead'>Fetch public tweets from Twitter in FT style</p>
+      </div>
+
+      <div class='o-techdocs-content'>
+        <p>This service provides embeddable HTML to render a Tweet, as an alternative to using <a href='https://dev.twitter.com/docs/api/1/get/statuses/oembed'>Twitter's oEmbed endpoint</a> and <code>widgets.js</code> JavaScript library.  This is useful for a number of reasons:</p>
+        <ul>
+          <li>Twitter's oEmbed HTML does not contain much data, leading to an inferior user experience for users for whom <code>widgets.js</code> does not load, where it fails, or if the user has JavaScript disabled or is using a JavaScript incapable client</li>
+          <li>Where <code>widgets.js</code> is used, it creates an IFRAME which is problematic when displayed in pages that also extensively use CSS transforms</li>
+          <li><code>widgets.js</code> takes over any link to Twitter, altering the behaviour in a way the FT developer may not want</li>
+          <li>The Tweet style created by <code>widgets.js</code> is less responsive than the basic oEmbed version</li>
+          <li>We prefer not to include third party JavaScript where we can avoid it, since it's a security risk and also means updates published by the third party might break our sites</li>
+        </ul>
+
+        <h2>API reference</h2>
+        <h3>GET /v1/statuses/show.:format</h3>
+        <p>Fetch a single tweet specified by ID or URL.</p>
+        <table class='o-techdocs-table'>
+          <tr>
+            <th>Param</th><th>Where</th><th>Description</th>
+          </tr><tr>
+            <td><code>:format</code></td>
+            <td>URL</td>
+            <td>json or html</td>
+          </tr><tr>
+            <td><code>id</code>*</td>
+            <td>Querystring</td>
+            <td>ID of the tweet, or the full tweet URL</td>
+          </tr><tr>
+            <td><code>callback</code></td>
+            <td>Querystring</td>
+            <td>JSONp callback function name</td>
+          </tr>
+        </table>
+
+        <h2>Rate limiting</h2>
+        <p>Twitter limits the number of requests we can make per 15 minute window.  If your request hits a Twitter rate limit, you'll receive the response the service received from Twitter, with an HTTP 429 status code.</p>
+
+        <h2>Example</h2>
+        <p>Using the same example tweet twitter uses on its <a href='https://dev.twitter.com/docs/embedded-tweets'>embedding tweets</a> documentation:</p>
+      </div>
+
+      <div id='example_tweet'></div>
+
+      <div class='o-techdocs-content'>
+        <p>This tweet is embedded in this page by making an AJAX request to this service's API, and adding the resulting HTML to the DOM.  This page also includes CSS from the <a href=''>ft-tweet</a> module as a <code>&lt;link&gt;</code> tag in the head, which gives the tweet its visual style. The code to achieve this is simply:</p>
+
+<?prettify linenums=1?>
+<pre><code>var xhr = new XMLHttpRequest();
+xhr.open("get", "/v1/statuses/show.html?id=266031293945503744&amp;source=your-app-name");
+xhr.onload = function() {
+document.getElementById('example_tweet').innerHTML = this.responseText;
+}
+xhr.send();</code></pre>
+
+        <p>You'd normally do the web service call server side or at the edge, to improve pageload performance, and since the tweet content can normally be cached along with the rest of the page.  To make the call server side, simply load the same URL in an <a href='http://en.wikipedia.org/wiki/Edge_Side_Includes'>ESI</a> or using your server application.</p>
+      </div>
+
+      <div class='o-techdocs-footer'>
+        <p><a class='o-techdocs-pull-right' href='http://github.com/financial-times/ft-origami'>View project on Github</a>&copy; THE FINANCIAL TIMES LTD. FT and 'Financial Times' are trademarks of The Financial Times Ltd.</p>
+      </div>
+
+    </div> <!-- /page -->
+
     <script>
       window.onload = function() {
         var xhr = new XMLHttpRequest();
@@ -21,87 +88,9 @@
         xhr.send();
       }
     </script>
-  </head>
-  <body>
 
-    <div class="container">
-
-      <div class='row'>
-        <div class='col-lg-12'>
-
-          <div class='page-header'>
-            <h1>Tweet service</h1>
-            <p class='lead'>Fetch public tweets from Twitter in FT style</p>
-          </div>
-
-          <div class='main'>
-            <p>This service provides embeddable HTML to render a Tweet, as an alternative to using <a href='https://dev.twitter.com/docs/api/1/get/statuses/oembed'>Twitter's oEmbed endpoint</a> and <code>widgets.js</code> JavaScript library.  This is useful for a number of reasons:</p>
-            <ul>
-              <li>Twitter's oEmbed HTML does not contain much data, leading to an inferior user experience for users for whom <code>widgets.js</code> does not load, where it fails, or if the user has JavaScript disabled or is using a JavaScript incapable client</li>
-              <li>Where <code>widgets.js</code> is used, it creates an IFRAME which is problematic when displayed in pages that also extensively use CSS transforms</li>
-              <li><code>widgets.js</code> takes over any link to Twitter, altering the behaviour in a way the FT developer may not want</li>
-              <li>The Tweet style created by <code>widgets.js</code> is less responsive than the basic oEmbed version</li>
-              <li>We prefer not to include third party JavaScript where we can avoid it, since it's a security risk and also means updates published by the third party might break our sites</li>
-            </ul>
-
-            <h2>API reference</h2>
-            <h3>GET /v1/statuses/show.:format</h3>
-            <p>Fetch a single tweet specified by ID or URL.</p>
-            <table class='table'>
-              <tr>
-                <th>Param</th><th>Where</th><th>Description</th>
-              </tr><tr>
-                <td><code>:format</code></td>
-                <td>URL</td>
-                <td>json or html</td>
-              </tr><tr>
-                <td><code>id</code>*</td>
-                <td>Querystring</td>
-                <td>ID of the tweet, or the full tweet URL</td>
-              </tr><tr>
-                <td><code>callback</code></td>
-                <td>Querystring</td>
-                <td>JSONp callback function name</td>
-              </tr>
-            </table>
-
-            <h2>Rate limiting</h2>
-            <p>Twitter limits the number of requests we can make per 15 minute window.  If your request hits a Twitter rate limit, you'll receive the response the service received from Twitter, with an HTTP 429 status code.</p>
-
-            <h2>Example</h2>
-            <p>Using the same example tweet twitter uses on its <a href='https://dev.twitter.com/docs/embedded-tweets'>embedding tweets</a> documentation:</p>
-          </div>
-
-          <div id='example_tweet'></div>
-
-          <div class='main'>
-            <p>This tweet is embedded in this page by making an AJAX request to this service's API, and adding the resulting HTML to the DOM.  This page also includes CSS from the <a href=''>ft-tweet</a> module as a <code>&lt;link&gt;</code> tag in the head, which gives the tweet its visual style. The code to achieve this is simply:</p>
-
-<pre><code>var xhr = new XMLHttpRequest();
-xhr.open("get", "/v1/statuses/show.html?id=266031293945503744&amp;source=your-app-name");
-xhr.onload = function() {
-  document.getElementById('example_tweet').innerHTML = this.responseText;
-}
-xhr.send();</code></pre>
-
-            <p>You'd normally do the web service call server side or at the edge, to improve pageload performance, and since the tweet content can normally be cached along with the rest of the page.  To make the call server side, simply load the same URL in an <a href='http://en.wikipedia.org/wiki/Edge_Side_Includes'>ESI</a> or using your server application.</p>
-          </div>
-
-        </div>
-      </div>
-
-    </div> <!-- /container -->
-
-    <div class='footer'>
-      <div class='container'>
-        <div class='row'>
-          <div class='col-lg-12'>
-            <p class='pull-right'><a href='http://github.com/triblondon/tweet-service'>View project on Github</a></p>
-            <p>&copy; THE FINANCIAL TIMES LTD 2013. FT and 'Financial Times' are trademarks of The Financial Times Ltd.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js'></script>
+    <script>prettyPrint()</script>
 
   </body>
 </html>
