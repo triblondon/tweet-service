@@ -14,25 +14,26 @@ var checks = [
 				id: '210462857140252672',
 				format: 'json',
 				success: function() { def.resolve(true); },
-				error: function(msg) { def.reject(msg); }
+				error: function(err) { def.reject(err); }
 			});
 		}
 	}
 ];
 
 exports.get = function(callback) {
-	var key, promiselist = [], data = [];
+	var key, promiselist = [];
 	deferred.map(checks, function(check) {
 		var def = deferred();
+		var def2 = deferred();
 		check.func(def);
 		setTimeout(function() { def.reject(new Error("Timeout: check did not complete within "+timeout+"ms")) }, timeout);
 		def.promise.done(function() {
-			data.push(_.extend({}, _.pick(check, ['name', 'check']), {ok:true}));
-		}, function(msg) {
-			data.push(_.extend({}, _.pick(check, ['name', 'check', 'businessImpact', 'technicalImpact', 'panicGuide', 'severity']), {ok:false, checkOutput:JSON.stringify(msg)}));
+			def2.resolve(_.extend({}, _.pick(check, ['name', 'check']), {ok:true}))
+		}, function(err) {
+			def2.resolve(_.extend({}, _.pick(check, ['name', 'check', 'businessImpact', 'technicalImpact', 'panicGuide', 'severity']), {ok:false, checkOutput:err.output?JSON.stringify(err.output):err.toString()}));
 		});
-		return def.promise;
-	}).finally(function() {
+		return def2.promise;
+	})(function(data) {
 		callback(data);
 	})
 }
