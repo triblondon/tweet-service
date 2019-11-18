@@ -4,7 +4,7 @@
    "repository": "https://github.com/triblondon/tweet-service.git",
    "dependencies": {
       "express": "3.x",
-      "mustache": "0.8",
+      "mustache": "3.1",
       "twit": "*",
       "moment": "*",
       "forever": "*",
